@@ -38,6 +38,14 @@
                               MouseDoubleClick="OnResultDoubleClick">
                         <ListView.View>
                             <GridView>
+                                <GridViewColumn Header="الصورة" Width="50">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image Source="{Binding ImageUrl, Converter={StaticResource ProductImageConverter}}"
+                                                   Height="32" Width="32" Stretch="UniformToFill" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                                 <GridViewColumn Header="المنتج" Width="220" DisplayMemberBinding="{Binding Name}" />
                                 <GridViewColumn Header="الباركود" Width="120" DisplayMemberBinding="{Binding Barcode}" />
                                 <GridViewColumn Header="الكمية الكلية" Width="100" DisplayMemberBinding="{Binding TotalQuantity}" />

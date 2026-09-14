@@ -41,7 +41,13 @@
                 <ui:TextBox Text="{Binding StorageLocation, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
 
                 <TextBlock Text="نوع الاستخدام" Margin="0,0,0,4" HorizontalAlignment="Right" />
-                <ComboBox ItemsSource="{Binding UsageOptions}" SelectedItem="{Binding SelectedUsage}" Margin="0,0,0,12" />
+                <ComboBox ItemsSource="{Binding UsageOptions}" SelectedItem="{Binding SelectedUsage}" Margin="0,0,0,12">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource ProductUsageToLabelConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
                 <TextBlock Text="الصورة" Margin="0,0,0,4" HorizontalAlignment="Right" />
                 <DockPanel Margin="0,0,0,12">

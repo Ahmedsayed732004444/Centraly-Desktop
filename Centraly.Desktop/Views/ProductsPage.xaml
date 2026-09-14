@@ -22,6 +22,14 @@
             <Grid>
                 <DataGrid x:Name="ProductsGrid" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column">
                     <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="الصورة" Width="60">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding ImageUrl, Converter={StaticResource ProductImageConverter}}"
+                                           Height="36" Width="36" Stretch="UniformToFill" Margin="4" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTextColumn Header="المنتج" Binding="{Binding Name}" Width="*" />
                         <DataGridTextColumn Header="الباركود" Binding="{Binding Barcode}" Width="140" />
                         <DataGridTextColumn Header="القسم" Binding="{Binding Department.Name}" Width="140" />

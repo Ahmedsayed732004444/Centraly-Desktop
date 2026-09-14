@@ -7,9 +7,12 @@ namespace Centraly.Desktop.Services;
 // that relative path back to a full local path when it needs to display an image.
 public class LocalFileStorage : IFileStorage
 {
+    // ProductService/WalletService always pass folder="uploads/products" / "uploads/wallets"
+    // (the same literal they used to pass to the old web FileHelper) - Root must NOT also
+    // end in "uploads", or the two combine into ".../uploads/uploads/products/...".
     public static readonly string Root = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-        "Centraly", "uploads");
+        "Centraly");
 
     public async Task<string?> SaveAsync(IFormFile? file, string folder, CancellationToken ct = default)
     {
