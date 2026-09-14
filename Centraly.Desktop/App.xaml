@@ -13,6 +13,7 @@
             <conv:NullOrEmptyToVisibilityConverter x:Key="NullOrEmptyToVisibilityConverter" />
             <conv:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
             <conv:InverseBooleanToVisibilityConverter x:Key="InvertedVisibilityConverter" />
+            <conv:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
             <!--

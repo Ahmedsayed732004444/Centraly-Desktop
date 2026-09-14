@@ -22,7 +22,9 @@ public partial class ProductsPage : Page
         var result = await _runner.RunAsync<IProductService, Result<PaginatedList<ProductResponse>>>(
             svc => svc.GetAllProductsAsync(filters));
 
-        ProductsGrid.ItemsSource = result.IsSuccess ? result.Value.Items : [];
+        var items = result.IsSuccess ? result.Value.Items : [];
+        ProductsGrid.ItemsSource = items;
+        EmptyStateText.Visibility = items.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
     }
 
     private async void OnSearchClick(object sender, RoutedEventArgs e) => await SearchAsync();

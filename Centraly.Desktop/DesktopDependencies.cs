@@ -17,6 +17,12 @@ public static class DesktopDependencies
         services.AddDbContext<ApplicationDbContext>(op => op.UseSqlServer(
             connectionString, sql => sql.EnableRetryOnFailure(maxRetryCount: 3)));
 
+        // AddDefaultTokenProviders() registers DataProtectorTokenProvider, which needs
+        // IDataProtectionProvider - normally pulled in implicitly by a web host, but Desktop
+        // has none, so it must be added explicitly. Keys persist under
+        // %LOCALAPPDATA%\ASP.NET\DataProtection-Keys by default.
+        services.AddDataProtection();
+
         services.AddIdentityCore<ApplicationUser>()
             .AddRoles<ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
