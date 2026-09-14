@@ -1,0 +1,51 @@
+## Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## Visual Studio
+.vs/
+
+## Old standalone repo history for Centraly.Api, kept inert (not a real .git dir
+## anymore, just backed-up git internals) after folding this project into the
+## unified Centraly-Desktop repo. Never track its contents.
+Centraly.Api/.git-old-standalone-repo-backup/
+*.user
+*.userosv
+*.suo
+*.userprefs
+*.sln.docstates
+
+## Secrets - Centraly.Api's appsettings.json holds a real DB password + JWT key.
+## Commit appsettings.Example.json instead; each dev keeps their own real file locally.
+## (Centraly.Desktop/appsettings.json has no secrets - just a local LocalDB connection
+## string with Trusted_Connection - so it stays tracked for an out-of-the-box clone.)
+Centraly.Api/appsettings.json
+Centraly.Api/appsettings.Development.json
+!**/appsettings.Example.json
+
+## User uploads
+uploads/*
+!uploads/.gitkeep
+
+## OS generated
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+## Node (Centraly-Frontend, if present alongside)
+node_modules/
+dist/
+.env
+.env.local

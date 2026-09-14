@@ -1,0 +1,16 @@
+global using Centraly.Api;
+global using Centraly.Api.Abstractions;
+global using Centraly.Api.Contracts.Authentication;
+global using Centraly.Api.Entities;
+global using Centraly.Api.Persistence;
+global using Centraly.Api.Services.Abstraction;
+global using Centraly.Desktop.Services;
+global using CommunityToolkit.Mvvm.ComponentModel;
+global using CommunityToolkit.Mvvm.Input;
+global using CommunityToolkit.Mvvm.Messaging;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Hosting;
+global using System.IO;
+global using System.Windows;
+global using System.Windows.Controls;

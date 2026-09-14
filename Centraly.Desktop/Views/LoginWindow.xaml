@@ -1,0 +1,55 @@
+<ui:FluentWindow x:Class="Centraly.Desktop.Views.LoginWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 xmlns:conv="clr-namespace:Centraly.Desktop.Converters"
+                 Title="سنترالي - تسجيل الدخول"
+                 Width="420" Height="520"
+                 WindowStartupLocation="CenterScreen"
+                 ExtendsContentIntoTitleBar="True"
+                 WindowBackdropType="Mica"
+                 Background="{StaticResource PageBackgroundBrush}">
+
+    <ui:FluentWindow.Resources>
+        <conv:NullOrEmptyToVisibilityConverter x:Key="NullOrEmptyToVisibilityConverter" />
+        <conv:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </ui:FluentWindow.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ui:TitleBar Title="سنترالي" Grid.Row="0" ShowMaximize="False" ShowMinimize="False" />
+
+        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
+            <TextBlock Text="سنترالي" FontSize="28" FontWeight="Bold"
+                       Foreground="{StaticResource BrandPrimaryBrush}"
+                       HorizontalAlignment="Center" Margin="0,0,0,4" />
+            <TextBlock Text="تسجيل الدخول" FontSize="14"
+                       Foreground="{StaticResource TextMutedBrush}"
+                       HorizontalAlignment="Center" Margin="0,0,0,24" />
+
+            <TextBlock Text="اسم المستخدم" Margin="0,0,0,4" Foreground="{StaticResource TextMainBrush}" />
+            <ui:TextBox x:Name="UserNameBox" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"
+                        PlaceholderText="اسم المستخدم" Margin="0,0,0,12" />
+
+            <TextBlock Text="كلمة المرور" Margin="0,0,0,4" Foreground="{StaticResource TextMainBrush}" />
+            <ui:PasswordBox x:Name="PasswordBox" PlaceholderText="كلمة المرور" Margin="0,0,0,8" />
+
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="{StaticResource DangerBrush}"
+                       TextWrapping="Wrap" Margin="0,4,0,8"
+                       Visibility="{Binding ErrorMessage, Converter={StaticResource NullOrEmptyToVisibilityConverter}}" />
+
+            <ui:Button Content="دخول" Appearance="Primary" HorizontalAlignment="Stretch"
+                       Height="40" Margin="0,12,0,0"
+                       Command="{Binding LoginCommand}"
+                       IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBooleanConverter}}" />
+
+            <ProgressBar IsIndeterminate="True" Height="4" Margin="0,16,0,0"
+                         Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        </StackPanel>
+    </Grid>
+</ui:FluentWindow>

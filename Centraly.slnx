@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Centraly.Api.Tests/Centraly.Api.Tests.csproj" />
+  <Project Path="Centraly.Api/Centraly.Api.csproj" />
+  <Project Path="Centraly.Core/Centraly.Core.csproj" />
+  <Project Path="Centraly.Desktop/Centraly.Desktop.csproj" />
+</Solution>
