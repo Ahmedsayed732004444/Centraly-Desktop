@@ -17,6 +17,18 @@
             <conv:ProductUsageToLabelConverter x:Key="ProductUsageToLabelConverter" />
             <conv:ProductImageConverter x:Key="ProductImageConverter" />
             <conv:StockStatusConverter x:Key="StockStatusConverter" />
+            <conv:ImageAvailableToVisibilityConverter x:Key="ImageAvailableToVisibilityConverter" />
+            <conv:AvatarBackgroundConverter x:Key="AvatarBackgroundConverter" />
+            <conv:AvatarForegroundConverter x:Key="AvatarForegroundConverter" />
+            <conv:AvatarInitialConverter x:Key="AvatarInitialConverter" />
+            <conv:SaleTypeToLabelConverter x:Key="SaleTypeToLabelConverter" />
+            <conv:ProductImageBrushConverter x:Key="ProductImageBrushConverter" />
+            <conv:ImageUnavailableToVisibilityConverter x:Key="ImageUnavailableToVisibilityConverter" />
+            <conv:StockStatusBrushConverter x:Key="StockStatusBrushConverter" />
+            <conv:PositiveIntToBooleanConverter x:Key="PositiveIntToBooleanConverter" />
+            <conv:StockStatusForegroundConverter x:Key="StockStatusForegroundConverter" />
+            <SolidColorBrush x:Key="PosAccentBrush" Color="#0F8E4C" />
+            <conv:ProductSubtitleConverter x:Key="ProductSubtitleConverter" />
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
             <!--

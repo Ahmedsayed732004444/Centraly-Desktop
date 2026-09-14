@@ -1,0 +1,53 @@
+<ui:FluentWindow x:Class="Centraly.Desktop.Views.CheckoutWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 Width="420" Height="480"
+                 WindowStartupLocation="CenterOwner"
+                 ExtendsContentIntoTitleBar="True"
+                 WindowBackdropType="Mica"
+                 FlowDirection="RightToLeft"
+                 Background="{StaticResource PageBackgroundBrush}">
+    <Grid Margin="0,44,0,16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="20,0,20,0">
+            <TextBlock x:Name="TitleText" FontSize="18" FontWeight="Bold" Margin="0,0,0,16" />
+
+            <TextBlock Text="الإجمالي المطلوب" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,4" />
+            <Border Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                    CornerRadius="6" Padding="12,8" Margin="0,0,0,16">
+                <TextBlock x:Name="TotalText" FontSize="16" FontWeight="Bold" Foreground="{StaticResource BrandPrimaryBrush}" />
+            </Border>
+
+            <TextBlock Text="نوع الفاتورة" Margin="0,0,0,4" />
+            <ComboBox x:Name="SaleTypeCombo" Margin="0,0,0,16">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource SaleTypeToLabelConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <StackPanel x:Name="PaidAmountPanel" Visibility="Collapsed">
+                <TextBlock Text="المبلغ المدفوع" Margin="0,0,0,4" />
+                <ui:TextBox x:Name="PaidAmountBox" Text="0" Margin="0,0,0,16" />
+            </StackPanel>
+
+            <TextBlock Text="رقم الهاتف" Margin="0,0,0,4" />
+            <ui:TextBox x:Name="PhoneBox" PlaceholderText="مثال: 01xxxxxxxxx" Margin="0,0,0,16" />
+
+            <TextBlock Text="اسم العميل" Margin="0,0,0,4" />
+            <ui:TextBox x:Name="CustomerNameBox" PlaceholderText="مثال: أحمد محمد" Margin="0,0,0,16" />
+
+            <TextBlock x:Name="ErrorText" Foreground="{StaticResource DangerBrush}" TextWrapping="Wrap" Visibility="Collapsed" Margin="0,0,0,8" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Margin="20,8,20,0">
+            <ui:Button x:Name="ConfirmButton" Content="تأكيد وحفظ الفاتورة" Appearance="Primary" Height="42" Click="OnConfirmClick" />
+        </StackPanel>
+    </Grid>
+</ui:FluentWindow>

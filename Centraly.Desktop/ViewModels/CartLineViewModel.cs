@@ -9,6 +9,8 @@ public partial class CartLineViewModel : ObservableObject
     public required string ProductName { get; init; }
     public required string BatchId { get; init; }
     public required int AvailableQuantity { get; init; }
+    public string? ImageUrl { get; init; }
+    public string? SupplierName { get; init; }
 
     [ObservableProperty]
     private int _quantity = 1;

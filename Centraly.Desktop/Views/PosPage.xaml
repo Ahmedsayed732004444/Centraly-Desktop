@@ -6,61 +6,144 @@
       FlowDirection="RightToLeft"
       Background="{StaticResource PageBackgroundBrush}">
 
+    <Page.Resources>
+        <!-- Product card: image-or-avatar, stock badge, name, category, stock count, add button. -->
+        <DataTemplate x:Key="ProductCardTemplate">
+            <Border Width="172" Margin="6" Background="{StaticResource SurfaceBrush}"
+                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1" CornerRadius="10">
+                <Grid Margin="12">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" HorizontalAlignment="Left" Background="{Binding Converter={StaticResource StockStatusBrushConverter}}"
+                            CornerRadius="6" Padding="8,2" Margin="0,0,0,8">
+                        <TextBlock Text="{Binding Converter={StaticResource StockStatusConverter}}" FontSize="10" FontWeight="Bold"
+                                   Foreground="{Binding Converter={StaticResource StockStatusForegroundConverter}}" />
+                    </Border>
+
+                    <Grid Grid.Row="1" Width="64" Height="64" Margin="0,0,0,8" HorizontalAlignment="Center">
+                        <Ellipse Fill="{Binding ImageUrl, Converter={StaticResource ProductImageBrushConverter}}"
+                                 Visibility="{Binding ImageUrl, Converter={StaticResource ImageAvailableToVisibilityConverter}}" />
+                        <Ellipse Fill="{Binding Name, Converter={StaticResource AvatarBackgroundConverter}}"
+                                 Visibility="{Binding ImageUrl, Converter={StaticResource ImageUnavailableToVisibilityConverter}}" />
+                        <TextBlock Text="{Binding Name, Converter={StaticResource AvatarInitialConverter}}"
+                                   Foreground="{Binding Name, Converter={StaticResource AvatarForegroundConverter}}"
+                                   FontWeight="Bold" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   Visibility="{Binding ImageUrl, Converter={StaticResource ImageUnavailableToVisibilityConverter}}" />
+                    </Grid>
+
+                    <TextBlock Grid.Row="2" Text="{Binding Name}" FontWeight="Bold" HorizontalAlignment="Center"
+                               TextAlignment="Center" TextWrapping="Wrap" Margin="0,0,0,2" />
+                    <TextBlock Grid.Row="3" Text="{Binding Converter={StaticResource ProductSubtitleConverter}}" Foreground="{StaticResource TextMutedBrush}"
+                               FontSize="12" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" Margin="0,0,0,6" />
+                    <TextBlock Grid.Row="4" HorizontalAlignment="Center" FontWeight="Bold" FontSize="12" Margin="0,0,0,8"
+                               Foreground="{Binding Converter={StaticResource StockStatusForegroundConverter}}">
+                        <Run Text="المخزون: " />
+                        <Run Text="{Binding TotalQuantity, Mode=OneWay}" />
+                    </TextBlock>
+
+                    <ui:Button Grid.Row="5" Content="+ إضافة" HorizontalAlignment="Stretch"
+                               Background="{StaticResource PosAccentBrush}" Foreground="White"
+                               IsEnabled="{Binding TotalQuantity, Converter={StaticResource PositiveIntToBooleanConverter}}"
+                               Click="OnAddToCartClick" Tag="{Binding}" />
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <!-- Cart line: thumbnail, name + supplier, qty stepper, price, remove. -->
+        <DataTemplate x:Key="CartLineTemplate">
+            <Border Background="{StaticResource SurfaceBrush}" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,0,0,1" Padding="0,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" Content="✕" Background="Transparent" BorderThickness="0" Foreground="{StaticResource TextMutedBrush}"
+                            VerticalAlignment="Top" Command="{Binding DataContext.RemoveLineCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                            CommandParameter="{Binding}" />
+
+                    <StackPanel Grid.Column="1" Margin="8,0">
+                        <TextBlock Text="{Binding ProductName}" FontWeight="Bold" TextWrapping="Wrap" />
+                        <TextBlock Text="{Binding SupplierName}" Foreground="{StaticResource TextMutedBrush}" FontSize="11" />
+                        <TextBlock Text="{Binding UnitPrice, StringFormat='{}{0:0.##} ج.م.'}" Foreground="{StaticResource PosAccentBrush}" FontWeight="Bold" Margin="0,4,0,0" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Content="+" Width="26" Height="26"
+                                Command="{Binding DataContext.IncrementLineCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                CommandParameter="{Binding}" />
+                        <TextBlock Text="{Binding Quantity}" Width="28" TextAlignment="Center" VerticalAlignment="Center" />
+                        <Button Content="-" Width="26" Height="26"
+                                Command="{Binding DataContext.DecrementLineCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                CommandParameter="{Binding}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Page.Resources>
+
     <Grid Margin="16">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2.2*" />
             <ColumnDefinition Width="16" />
-            <ColumnDefinition Width="1.2*" />
+            <ColumnDefinition Width="*" MinWidth="280" />
         </Grid.ColumnDefinitions>
 
-        <!-- Search + results -->
-        <Border Grid.Column="0" Background="{StaticResource SurfaceBrush}" CornerRadius="8" Padding="16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+        <!-- Search + product grid -->
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Text="بحث عن منتج" FontSize="16" FontWeight="Bold"
-                           Foreground="{StaticResource TextMainBrush}" Margin="0,0,0,12" />
+            <DockPanel Grid.Row="0" Margin="0,0,0,12">
+                <ComboBox DockPanel.Dock="Left" x:Name="DepartmentCombo" Width="170"
+                          ItemsSource="{Binding Departments}" SelectedItem="{Binding SelectedDepartment}"
+                          DisplayMemberPath="Name" />
+                <ui:TextBox Margin="8,0,0,0" PlaceholderText="ابحث عن منتج بالاسم أو امسح الباركود..."
+                            Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                            KeyDown="OnSearchBoxKeyDown" />
+            </DockPanel>
 
-                <DockPanel Grid.Row="1" Margin="0,0,0,12">
-                    <ui:Button DockPanel.Dock="Left" Content="بحث" Appearance="Primary" Width="90" Margin="8,0,0,0"
-                               Command="{Binding SearchCommand}" />
-                    <ui:TextBox x:Name="SearchBox" PlaceholderText="ابحث بالاسم أو الباركود..."
-                                Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
-                                KeyDown="OnSearchBoxKeyDown" />
-                </DockPanel>
-
-                <Grid Grid.Row="2">
-                    <ListView x:Name="ResultsList" ItemsSource="{Binding SearchResults}"
-                              MouseDoubleClick="OnResultDoubleClick">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="الصورة" Width="50">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Source="{Binding ImageUrl, Converter={StaticResource ProductImageConverter}}"
-                                                   Height="32" Width="32" Stretch="UniformToFill" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="المنتج" Width="220" DisplayMemberBinding="{Binding Name}" />
-                                <GridViewColumn Header="الباركود" Width="120" DisplayMemberBinding="{Binding Barcode}" />
-                                <GridViewColumn Header="الكمية الكلية" Width="100" DisplayMemberBinding="{Binding TotalQuantity}" />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    <TextBlock Text="ابحث عن منتج واضغط عليه مرتين لإضافته للسلة" Foreground="{StaticResource TextMutedBrush}"
-                               HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" MaxWidth="260"
+            <Border Grid.Row="1" Background="{StaticResource SurfaceBrush}" CornerRadius="8"
+                    BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+                <Grid>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="8">
+                        <ItemsControl ItemsSource="{Binding SearchResults}" ItemTemplate="{StaticResource ProductCardTemplate}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </ScrollViewer>
+                    <TextBlock Text="لا توجد منتجات مطابقة" Foreground="{StaticResource TextMutedBrush}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
                                Visibility="{Binding SearchResults, Converter={StaticResource CountToVisibilityConverter}}" />
                 </Grid>
-            </Grid>
-        </Border>
+            </Border>
 
-        <!-- Cart + checkout -->
-        <Border Grid.Column="2" Background="{StaticResource SurfaceBrush}" CornerRadius="8" Padding="16" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,12,0,0">
+                <ui:Button Content="السابق" Width="90" Margin="0,0,8,0" Command="{Binding PrevPageCommand}" />
+                <TextBlock VerticalAlignment="Center" Margin="8,0">
+                    <Run Text="صفحة" /> <Run Text="{Binding PageNumber, Mode=OneWay}" /> <Run Text="من" /> <Run Text="{Binding TotalPages, Mode=OneWay}" />
+                </TextBlock>
+                <ui:Button Content="التالي" Width="90" Margin="8,0,0,0" Command="{Binding NextPageCommand}" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Cart -->
+        <Border Grid.Column="2" Background="{StaticResource SurfaceBrush}" CornerRadius="8" Padding="16"
+                BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -68,56 +151,41 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Text="السلة" FontSize="16" FontWeight="Bold"
-                           Foreground="{StaticResource TextMainBrush}" Margin="0,0,0,12" />
+                <DockPanel Grid.Row="0" Margin="0,0,0,12">
+                    <Button DockPanel.Dock="Left" Content="🗑" Background="Transparent" BorderThickness="0"
+                            Foreground="{StaticResource TextMutedBrush}" Command="{Binding ClearCartCommand}" />
+                    <StackPanel>
+                        <TextBlock Text="سلة المشتريات" FontSize="16" FontWeight="Bold" />
+                        <TextBlock Foreground="{StaticResource TextMutedBrush}" FontSize="12">
+                            <Run Text="الكمية" /> <Run Text="{Binding CartQuantity, Mode=OneWay}" /> <Run Text="|" /> <Run Text="{Binding CartItemCount, Mode=OneWay}" /> <Run Text="أصناف" />
+                        </TextBlock>
+                    </StackPanel>
+                </DockPanel>
 
-                <Grid Grid.Row="1" MinHeight="120">
-                    <DataGrid ItemsSource="{Binding Cart}" AutoGenerateColumns="False"
-                              CanUserAddRows="False" IsReadOnly="False" HeadersVisibility="Column">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="الصنف" Binding="{Binding ProductName}" IsReadOnly="True" Width="*" />
-                            <DataGridTextColumn Header="الكمية" Binding="{Binding Quantity}" Width="60" />
-                            <DataGridTextColumn Header="السعر" Binding="{Binding UnitPrice}" Width="80" />
-                            <DataGridTextColumn Header="الإجمالي" Binding="{Binding LineTotal, StringFormat={}{0:0.##}}" IsReadOnly="True" Width="80" />
-                            <DataGridTemplateColumn Header="" Width="40">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Content="✕" Background="Transparent" BorderThickness="0" Foreground="{StaticResource DangerBrush}"
-                                                Command="{Binding DataContext.RemoveLineCommand, RelativeSource={RelativeSource AncestorType=Page}}"
-                                                CommandParameter="{Binding}" />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                <Grid Grid.Row="1">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding Cart}" ItemTemplate="{StaticResource CartLineTemplate}" />
+                    </ScrollViewer>
                     <TextBlock Text="السلة فارغة" Foreground="{StaticResource TextMutedBrush}"
                                HorizontalAlignment="Center" VerticalAlignment="Center"
                                Visibility="{Binding Cart, Converter={StaticResource CountToVisibilityConverter}}" />
                 </Grid>
 
                 <StackPanel Grid.Row="2" Margin="0,12,0,0">
-                    <TextBlock Text="{Binding CartTotal, StringFormat='الإجمالي: {0:0.##}'}"
-                               FontSize="18" FontWeight="Bold" Foreground="{StaticResource BrandPrimaryBrush}"
-                               HorizontalAlignment="Right" Margin="0,0,0,12" />
+                    <DockPanel Margin="0,0,0,4">
+                        <TextBlock DockPanel.Dock="Left" Text="{Binding CartTotal, StringFormat='{}{0:0.##} ج.م.'}" FontWeight="Bold" />
+                        <TextBlock Text="المجموع الفرعي" Foreground="{StaticResource TextMutedBrush}" />
+                    </DockPanel>
+                    <DockPanel Margin="0,0,0,12">
+                        <TextBlock DockPanel.Dock="Left" Text="{Binding CartTotal, StringFormat='{}{0:0.##} ج.م.'}" FontWeight="Bold" FontSize="16"
+                                   Foreground="{StaticResource PosAccentBrush}" />
+                        <TextBlock Text="الإجمالي" Foreground="{StaticResource TextMainBrush}" FontWeight="Bold" />
+                    </DockPanel>
 
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8" HorizontalAlignment="Right">
-                        <RadioButton Content="نقدي" IsChecked="{Binding IsCash}" GroupName="PaymentMethod" Margin="0,0,16,0" />
-                        <RadioButton Content="آجل" IsChecked="{Binding IsCash, Converter={StaticResource InvertedBooleanConverter}}" GroupName="PaymentMethod" />
-                    </StackPanel>
-
-                    <StackPanel Visibility="{Binding IsCash, Converter={StaticResource InvertedVisibilityConverter}}">
-                        <ui:TextBox PlaceholderText="اسم العميل" Text="{Binding CustomerName, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8" />
-                        <ui:TextBox PlaceholderText="هاتف العميل" Text="{Binding CustomerPhone, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8" />
-                        <ui:TextBox PlaceholderText="المبلغ المدفوع" Text="{Binding PaidAmount, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8" />
-                    </StackPanel>
-
-                    <TextBlock Text="{Binding ErrorMessage}" Foreground="{StaticResource DangerBrush}" TextWrapping="Wrap"
-                               Visibility="{Binding ErrorMessage, Converter={StaticResource NullOrEmptyToVisibilityConverter}}" Margin="0,4,0,4" />
-                    <TextBlock Text="{Binding SuccessMessage}" Foreground="Green" TextWrapping="Wrap"
-                               Visibility="{Binding SuccessMessage, Converter={StaticResource NullOrEmptyToVisibilityConverter}}" Margin="0,4,0,4" />
-
-                    <ui:Button Content="إتمام البيع" Appearance="Primary" HorizontalAlignment="Stretch" Height="42"
-                               Command="{Binding CheckoutCommand}" IsEnabled="{Binding IsSubmitting, Converter={StaticResource InvertedBooleanConverter}}" />
+                    <ui:Button Content="دفع كاش" Background="{StaticResource PosAccentBrush}" Foreground="White" Height="42" Margin="0,0,0,8"
+                               Click="OnCashClick" IsEnabled="{Binding CartItemCount, Converter={StaticResource PositiveIntToBooleanConverter}}" />
+                    <ui:Button Content="دفع آجل" Height="42"
+                               Click="OnDeferredClick" IsEnabled="{Binding CartItemCount, Converter={StaticResource PositiveIntToBooleanConverter}}" />
                 </StackPanel>
             </Grid>
         </Border>
