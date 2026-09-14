@@ -12,7 +12,9 @@ public class HourlyBackgroundJobs(IServiceRunner runner, ILogger<HourlyBackgroun
     {
         using var timer = new PeriodicTimer(TimeSpan.FromHours(1));
 
-        do
+        // Wait for the first tick before running - firing immediately at startup would
+        // race the DB connection against App.xaml.cs's own MigrateAsync() call.
+        while (await timer.WaitForNextTickAsync(stoppingToken))
         {
             try
             {
@@ -23,6 +25,6 @@ public class HourlyBackgroundJobs(IServiceRunner runner, ILogger<HourlyBackgroun
             {
                 logger.LogError(ex, "Hourly background job run failed");
             }
-        } while (await timer.WaitForNextTickAsync(stoppingToken));
+        }
     }
 }

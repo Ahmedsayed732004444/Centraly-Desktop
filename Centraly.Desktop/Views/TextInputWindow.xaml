@@ -1,0 +1,19 @@
+<ui:FluentWindow x:Class="Centraly.Desktop.Views.TextInputWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 Title="إدخال"
+                 Width="380" Height="220"
+                 WindowStartupLocation="CenterOwner"
+                 ExtendsContentIntoTitleBar="True"
+                 WindowBackdropType="Mica"
+                 Background="{StaticResource PageBackgroundBrush}">
+    <StackPanel Margin="16,48,16,16">
+        <TextBlock x:Name="PromptText" Text="الاسم" Margin="0,0,0,8" HorizontalAlignment="Right" />
+        <ui:TextBox x:Name="InputBox" Margin="0,0,0,16" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+            <ui:Button Content="حفظ" Appearance="Primary" Width="100" Margin="0,0,8,0" Click="OnSaveClick" />
+            <ui:Button Content="إلغاء" Width="100" Click="OnCancelClick" />
+        </StackPanel>
+    </StackPanel>
+</ui:FluentWindow>

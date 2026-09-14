@@ -34,6 +34,10 @@ public partial class App : Application
                 services.AddTransient<MainWindow>();
                 services.AddTransient<PosViewModel>();
                 services.AddTransient<PosPage>();
+                services.AddTransient<CategoriesPage>();
+                services.AddTransient<AddProductViewModel>();
+                services.AddTransient<AddProductWindow>();
+                services.AddTransient<ProductsPage>();
             })
             .Build();
 

@@ -1,0 +1,80 @@
+<ui:FluentWindow x:Class="Centraly.Desktop.Views.AddProductWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 Title="إضافة منتج"
+                 Width="560" Height="700"
+                 WindowStartupLocation="CenterOwner"
+                 ExtendsContentIntoTitleBar="True"
+                 WindowBackdropType="Mica"
+                 Background="{StaticResource PageBackgroundBrush}">
+
+    <Grid Margin="0,40,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="20,0,20,12">
+                <TextBlock Text="الباركود" Margin="0,0,0,4" HorizontalAlignment="Right" />
+                <DockPanel Margin="0,0,0,12">
+                    <ui:Button DockPanel.Dock="Left" Content="توليد" Command="{Binding GenerateBarcodeCommand}" Width="80" />
+                    <ui:TextBox Text="{Binding Barcode, UpdateSourceTrigger=PropertyChanged}" />
+                </DockPanel>
+
+                <TextBlock Text="اسم المنتج" Margin="0,0,0,4" HorizontalAlignment="Right" />
+                <ui:TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
+
+                <TextBlock Text="القسم" Margin="0,0,0,4" HorizontalAlignment="Right" />
+                <ComboBox ItemsSource="{Binding Departments}" SelectedItem="{Binding SelectedDepartment}"
+                          DisplayMemberPath="Name" Margin="0,0,0,12" />
+
+                <TextBlock Text="التصنيف" Margin="0,0,0,4" HorizontalAlignment="Right" />
+                <ComboBox ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}"
+                          DisplayMemberPath="Name" Margin="0,0,0,12" />
+
+                <TextBlock Text="الحد الأدنى للتنبيه" Margin="0,0,0,4" HorizontalAlignment="Right" />
+                <ui:TextBox Text="{Binding MinQuantityAlert, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
+
+                <TextBlock Text="موقع التخزين" Margin="0,0,0,4" HorizontalAlignment="Right" />
+                <ui:TextBox Text="{Binding StorageLocation, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,12" />
+
+                <TextBlock Text="نوع الاستخدام" Margin="0,0,0,4" HorizontalAlignment="Right" />
+                <ComboBox ItemsSource="{Binding UsageOptions}" SelectedItem="{Binding SelectedUsage}" Margin="0,0,0,12" />
+
+                <TextBlock Text="الصورة" Margin="0,0,0,4" HorizontalAlignment="Right" />
+                <DockPanel Margin="0,0,0,12">
+                    <ui:Button DockPanel.Dock="Left" Content="اختر صورة" Click="OnPickImageClick" Width="100" />
+                    <TextBlock Text="{Binding ImagePath}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                </DockPanel>
+
+                <TextBlock Text="خصائص إضافية" FontWeight="Bold" Margin="0,4,0,8" HorizontalAlignment="Right" />
+                <ItemsControl ItemsSource="{Binding Properties}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel Margin="0,0,0,8">
+                                <Button DockPanel.Dock="Left" Content="✕" Width="28" Background="Transparent" BorderThickness="0"
+                                        Foreground="{StaticResource DangerBrush}"
+                                        Command="{Binding DataContext.RemovePropertyCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                        CommandParameter="{Binding}" />
+                                <ui:TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="القيمة" Width="180" Margin="8,0,0,0" />
+                                <ui:TextBox Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}" PlaceholderText="الاسم" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <ui:Button Content="+ إضافة خاصية" Command="{Binding AddPropertyCommand}" HorizontalAlignment="Left" Margin="0,0,0,12" />
+
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="{StaticResource DangerBrush}" TextWrapping="Wrap"
+                           Visibility="{Binding ErrorMessage, Converter={StaticResource NullOrEmptyToVisibilityConverter}}" />
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="20,0,20,16">
+            <ui:Button Content="حفظ" Appearance="Primary" Width="100" Margin="0,0,8,0"
+                       Click="OnSaveClick" IsEnabled="{Binding IsSaving, Converter={StaticResource InvertedBooleanConverter}}" />
+            <ui:Button Content="إلغاء" Width="100" Click="OnCancelClick" />
+        </StackPanel>
+    </Grid>
+</ui:FluentWindow>

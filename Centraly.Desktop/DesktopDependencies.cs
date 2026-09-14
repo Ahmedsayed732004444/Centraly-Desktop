@@ -12,7 +12,10 @@ public static class DesktopDependencies
         var connectionString = configuration.GetConnectionString("DefaultConnection") ??
             throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-        services.AddDbContext<ApplicationDbContext>(op => op.UseSqlServer(connectionString));
+        // LocalDB can be mid-cold-start on the first connection of a session (it auto-shuts
+        // down after ~15 min idle) - retry instead of failing outright on that one hiccup.
+        services.AddDbContext<ApplicationDbContext>(op => op.UseSqlServer(
+            connectionString, sql => sql.EnableRetryOnFailure(maxRetryCount: 3)));
 
         services.AddIdentityCore<ApplicationUser>()
             .AddRoles<ApplicationRole>()

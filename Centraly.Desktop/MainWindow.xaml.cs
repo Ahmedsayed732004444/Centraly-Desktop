@@ -110,6 +110,8 @@ public partial class MainWindow : FluentWindow
     private static readonly Dictionary<string, Func<Page>> RealPages = new()
     {
         ["شاشة الكاشير"] = () => App.AppHost.Services.GetRequiredService<Views.PosPage>(),
+        ["التصنيفات"] = () => App.AppHost.Services.GetRequiredService<Views.CategoriesPage>(),
+        ["المنتجات"] = () => App.AppHost.Services.GetRequiredService<Views.ProductsPage>(),
     };
 
     private System.Windows.Controls.Button CreateItemButton(string label)
