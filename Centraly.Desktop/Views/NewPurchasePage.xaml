@@ -25,7 +25,7 @@
                 <TextBlock Grid.Row="0" Text="بحث عن منتج" FontSize="16" FontWeight="Bold" Margin="0,0,0,12" />
 
                 <DockPanel Grid.Row="1" Margin="0,0,0,12">
-                    <ui:Button DockPanel.Dock="Right" Content="بحث" Appearance="Primary" Width="80" Margin="8,0,0,0" Command="{Binding SearchCommand}" />
+                    <ui:Button DockPanel.Dock="Left" Content="بحث" Appearance="Primary" Width="80" Margin="8,0,0,0" Command="{Binding SearchCommand}" />
                     <ui:TextBox PlaceholderText="ابحث بالاسم أو الباركود..." Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
                                 KeyDown="OnSearchBoxKeyDown" />
                 </DockPanel>
@@ -56,7 +56,7 @@
                 </Grid.RowDefinitions>
 
                 <DockPanel Grid.Row="0" Margin="0,0,0,12">
-                    <TextBlock Text="المورد" VerticalAlignment="Center" Margin="0,0,8,0" DockPanel.Dock="Right" />
+                    <TextBlock Text="المورد" VerticalAlignment="Center" Margin="0,0,8,0" DockPanel.Dock="Left" />
                     <ComboBox ItemsSource="{Binding Suppliers}" SelectedItem="{Binding SelectedSupplier}" DisplayMemberPath="Name" Width="220" HorizontalAlignment="Right" />
                 </DockPanel>
 
@@ -90,7 +90,7 @@
                                Foreground="{StaticResource BrandPrimaryBrush}" HorizontalAlignment="Right" Margin="0,0,0,12" />
 
                     <DockPanel Margin="0,0,0,8">
-                        <TextBlock Text="المدفوع" VerticalAlignment="Center" Margin="0,0,8,0" DockPanel.Dock="Right" />
+                        <TextBlock Text="المدفوع" VerticalAlignment="Center" Margin="0,0,8,0" DockPanel.Dock="Left" />
                         <ui:TextBox Text="{Binding PaidAmount, UpdateSourceTrigger=PropertyChanged}" Width="140" HorizontalAlignment="Right" />
                     </DockPanel>
 

@@ -13,9 +13,9 @@
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0" Margin="0,0,0,12">
-            <ui:Button DockPanel.Dock="Right" Content="+ إضافة مورد" Appearance="Primary" Width="130" Click="OnAddClick" Margin="8,0,0,0" />
-            <ui:Button DockPanel.Dock="Right" Content="تعديل" Width="90" Click="OnEditClick" Margin="8,0,0,0" />
-            <ui:Button DockPanel.Dock="Right" Content="حذف" Width="90" Click="OnDeleteClick" />
+            <ui:Button DockPanel.Dock="Left" Content="+ إضافة مورد" Appearance="Primary" Width="130" Click="OnAddClick" Margin="8,0,0,0" />
+            <ui:Button DockPanel.Dock="Left" Content="تعديل" Width="90" Click="OnEditClick" Margin="8,0,0,0" />
+            <ui:Button DockPanel.Dock="Left" Content="حذف" Width="90" Click="OnDeleteClick" />
         </DockPanel>
 
         <Border Grid.Row="1" Background="{StaticResource SurfaceBrush}" CornerRadius="8" Padding="8" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">

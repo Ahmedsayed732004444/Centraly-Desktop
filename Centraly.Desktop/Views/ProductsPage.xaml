@@ -13,8 +13,8 @@
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0" Margin="0,0,0,12">
-            <ui:Button DockPanel.Dock="Right" Content="+ إضافة منتج" Appearance="Primary" Width="130" Click="OnAddProductClick" Margin="8,0,0,0" />
-            <ui:Button DockPanel.Dock="Right" Content="بحث" Width="80" Margin="8,0,0,0" Click="OnSearchClick" />
+            <ui:Button DockPanel.Dock="Left" Content="+ إضافة منتج" Appearance="Primary" Width="130" Click="OnAddProductClick" Margin="8,0,0,0" />
+            <ui:Button DockPanel.Dock="Left" Content="بحث" Width="80" Margin="8,0,0,0" Click="OnSearchClick" />
             <ui:TextBox x:Name="SearchBox" PlaceholderText="ابحث بالاسم أو الباركود..." KeyDown="OnSearchBoxKeyDown" />
         </DockPanel>
 
@@ -31,10 +31,22 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTextColumn Header="المنتج" Binding="{Binding Name}" Width="*" />
-                        <DataGridTextColumn Header="الباركود" Binding="{Binding Barcode}" Width="140" />
-                        <DataGridTextColumn Header="القسم" Binding="{Binding Department.Name}" Width="140" />
-                        <DataGridTextColumn Header="التصنيف" Binding="{Binding Category.Name}" Width="140" />
-                        <DataGridTextColumn Header="الكمية" Binding="{Binding TotalQuantity}" Width="80" />
+                        <DataGridTextColumn Header="الباركود" Binding="{Binding Barcode}" Width="120" />
+                        <DataGridTextColumn Header="القسم" Binding="{Binding Department.Name}" Width="110" />
+                        <DataGridTextColumn Header="التصنيف" Binding="{Binding Category.Name}" Width="110" />
+                        <DataGridTextColumn Header="النوع" Binding="{Binding Usage, Converter={StaticResource ProductUsageToLabelConverter}}" Width="90" />
+                        <DataGridTextColumn Header="الكمية" Binding="{Binding TotalQuantity}" Width="70" />
+                        <DataGridTextColumn Header="الدفعات" Binding="{Binding Batches.Count}" Width="70" />
+                        <DataGridTextColumn Header="موقع التخزين" Binding="{Binding StorageLocation}" Width="110" />
+                        <DataGridTextColumn Header="حالة المخزون" Binding="{Binding Converter={StaticResource StockStatusConverter}}" Width="100" />
+                        <DataGridTemplateColumn Header="" Width="40">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="✕" Background="Transparent" BorderThickness="0" Foreground="{StaticResource DangerBrush}"
+                                            Click="OnDeleteProductClick" Tag="{Binding}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
                 <TextBlock x:Name="EmptyStateText" Text="لا توجد منتجات بعد" Foreground="{StaticResource TextMutedBrush}"

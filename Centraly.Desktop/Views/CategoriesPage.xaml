@@ -6,6 +6,25 @@
       FlowDirection="RightToLeft"
       Background="{StaticResource PageBackgroundBrush}">
 
+    <Page.Resources>
+        <Style x:Key="ListItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="10,10" />
+            <Setter Property="HorizontalContentAlignment" Value="Right" />
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="FontSize" Value="14" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource PageBackgroundBrush}" />
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{StaticResource BrandPrimaryBrush}" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
     <Grid Margin="16">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -25,6 +44,7 @@
                            Foreground="{StaticResource TextMainBrush}" Margin="0,0,0,12" HorizontalAlignment="Right" />
 
                 <ListBox x:Name="DepartmentsList" Grid.Row="1" DisplayMemberPath="Name"
+                         ItemContainerStyle="{StaticResource ListItemStyle}"
                          SelectionChanged="OnDepartmentSelected" />
 
                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,12,0,0">
@@ -46,7 +66,8 @@
                 <TextBlock Grid.Row="0" Text="التصنيفات" FontSize="16" FontWeight="Bold"
                            Foreground="{StaticResource TextMainBrush}" Margin="0,0,0,12" HorizontalAlignment="Right" />
 
-                <ListBox x:Name="CategoriesList" Grid.Row="1" DisplayMemberPath="Name" />
+                <ListBox x:Name="CategoriesList" Grid.Row="1" DisplayMemberPath="Name"
+                         ItemContainerStyle="{StaticResource ListItemStyle}" />
 
                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,12,0,0">
                     <ui:Button Content="إضافة" Appearance="Primary" Width="90" Margin="0,0,8,0" Click="OnAddCategoryClick" />

@@ -26,7 +26,7 @@
                            Foreground="{StaticResource TextMainBrush}" Margin="0,0,0,12" />
 
                 <DockPanel Grid.Row="1" Margin="0,0,0,12">
-                    <ui:Button DockPanel.Dock="Right" Content="بحث" Appearance="Primary" Width="90" Margin="8,0,0,0"
+                    <ui:Button DockPanel.Dock="Left" Content="بحث" Appearance="Primary" Width="90" Margin="8,0,0,0"
                                Command="{Binding SearchCommand}" />
                     <ui:TextBox x:Name="SearchBox" PlaceholderText="ابحث بالاسم أو الباركود..."
                                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"

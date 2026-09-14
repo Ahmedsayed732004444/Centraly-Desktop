@@ -16,6 +16,7 @@
             <conv:CountToVisibilityConverter x:Key="CountToVisibilityConverter" />
             <conv:ProductUsageToLabelConverter x:Key="ProductUsageToLabelConverter" />
             <conv:ProductImageConverter x:Key="ProductImageConverter" />
+            <conv:StockStatusConverter x:Key="StockStatusConverter" />
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
             <!--
