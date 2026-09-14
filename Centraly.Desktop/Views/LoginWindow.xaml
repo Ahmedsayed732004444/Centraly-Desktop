@@ -2,19 +2,12 @@
                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-                 xmlns:conv="clr-namespace:Centraly.Desktop.Converters"
                  Title="سنترالي - تسجيل الدخول"
                  Width="420" Height="520"
                  WindowStartupLocation="CenterScreen"
                  ExtendsContentIntoTitleBar="True"
                  WindowBackdropType="Mica"
                  Background="{StaticResource PageBackgroundBrush}">
-
-    <ui:FluentWindow.Resources>
-        <conv:NullOrEmptyToVisibilityConverter x:Key="NullOrEmptyToVisibilityConverter" />
-        <conv:InvertedBooleanConverter x:Key="InvertedBooleanConverter" />
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    </ui:FluentWindow.Resources>
 
     <Grid>
         <Grid.RowDefinitions>

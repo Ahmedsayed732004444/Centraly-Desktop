@@ -1,3 +1,4 @@
+using Centraly.Desktop.ViewModels;
 using Centraly.Desktop.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,8 +29,11 @@ public partial class App : Application
             .ConfigureServices((context, services) =>
             {
                 services.AddCentralyDesktop(context.Configuration);
+                services.AddTransient<LoginViewModel>();
                 services.AddTransient<LoginWindow>();
                 services.AddTransient<MainWindow>();
+                services.AddTransient<PosViewModel>();
+                services.AddTransient<PosPage>();
             })
             .Build();
 

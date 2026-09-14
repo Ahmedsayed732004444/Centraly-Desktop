@@ -105,6 +105,13 @@ public partial class MainWindow : FluentWindow
         }
     }
 
+    // Items with a real page registered here open it via DI; everything else still
+    // opens the shared placeholder until its Phase (B-K) builds the real screen.
+    private static readonly Dictionary<string, Func<Page>> RealPages = new()
+    {
+        ["شاشة الكاشير"] = () => App.AppHost.Services.GetRequiredService<Views.PosPage>(),
+    };
+
     private System.Windows.Controls.Button CreateItemButton(string label)
     {
         var button = new System.Windows.Controls.Button
@@ -112,7 +119,9 @@ public partial class MainWindow : FluentWindow
             Content = label,
             Style = (Style)FindResource("SidebarItemStyle"),
         };
-        button.Click += (_, _) => PageHost.Content = new ComingSoonPage(label);
+        button.Click += (_, _) => PageHost.Content = RealPages.TryGetValue(label, out var factory)
+            ? factory()
+            : new ComingSoonPage(label);
         return button;
     }
 
