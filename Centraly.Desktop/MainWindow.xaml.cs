@@ -112,6 +112,8 @@ public partial class MainWindow : FluentWindow
         ["شاشة الكاشير"] = () => App.AppHost.Services.GetRequiredService<Views.PosPage>(),
         ["التصنيفات"] = () => App.AppHost.Services.GetRequiredService<Views.CategoriesPage>(),
         ["المنتجات"] = () => App.AppHost.Services.GetRequiredService<Views.ProductsPage>(),
+        ["الموردين"] = () => App.AppHost.Services.GetRequiredService<Views.SuppliersPage>(),
+        ["فاتورة مشتريات"] = () => App.AppHost.Services.GetRequiredService<Views.NewPurchasePage>(),
     };
 
     private System.Windows.Controls.Button CreateItemButton(string label)

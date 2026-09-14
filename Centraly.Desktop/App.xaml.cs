@@ -39,6 +39,9 @@ public partial class App : Application
                 services.AddTransient<AddProductViewModel>();
                 services.AddTransient<AddProductWindow>();
                 services.AddTransient<ProductsPage>();
+                services.AddTransient<SuppliersPage>();
+                services.AddTransient<NewPurchaseViewModel>();
+                services.AddTransient<NewPurchasePage>();
             })
             .Build();
 
