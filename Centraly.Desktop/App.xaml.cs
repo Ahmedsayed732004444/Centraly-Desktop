@@ -16,6 +16,7 @@ public partial class App : Application
 
         DispatcherUnhandledException += (_, args) =>
         {
+            Console.Error.WriteLine(args.Exception);
             MessageBox.Show($"حدث خطأ غير متوقع:\n{args.Exception.Message}", "خطأ", MessageBoxButton.OK, MessageBoxImage.Error);
             args.Handled = true;
         };
@@ -52,8 +53,10 @@ public partial class App : Application
             }
             catch (Exception ex)
             {
+                Console.Error.WriteLine(ex);
+                var detail = ex.InnerException?.Message ?? ex.Message;
                 MessageBox.Show(
-                    $"تعذر الاتصال بقاعدة البيانات المحلية أو تحديثها:\n{ex.Message}",
+                    $"تعذر الاتصال بقاعدة البيانات المحلية أو تحديثها:\n{detail}",
                     "خطأ في قاعدة البيانات", MessageBoxButton.OK, MessageBoxImage.Error);
                 Shutdown(-1);
                 return;
