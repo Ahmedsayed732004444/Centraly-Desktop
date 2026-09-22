@@ -137,11 +137,35 @@ public class ProductService(
             // Fixed Usage filter mapping based on Claude's analysis
             if (filters.Usage.HasValue)
             {
-                query = query.Where(p => p.Usage == (ProductUsage)filters.Usage.Value);
+                var usage = (ProductUsage)filters.Usage.Value;
+                if (usage == ProductUsage.SaleOnly)
+                {
+                    query = query.Where(p => p.Usage == ProductUsage.SaleOnly || p.Usage == ProductUsage.SaleAndMaintenance);
+                }
+                else if (usage == ProductUsage.MaintenanceOnly)
+                {
+                    query = query.Where(p => p.Usage == ProductUsage.MaintenanceOnly || p.Usage == ProductUsage.SaleAndMaintenance);
+                }
+                else
+                {
+                    query = query.Where(p => p.Usage == usage);
+                }
             }
             if (filters.ExcludeUsage.HasValue)
             {
-                query = query.Where(p => p.Usage != (ProductUsage)filters.ExcludeUsage.Value);
+                var excludeUsage = (ProductUsage)filters.ExcludeUsage.Value;
+                if (excludeUsage == ProductUsage.SaleOnly)
+                {
+                    query = query.Where(p => p.Usage != ProductUsage.SaleOnly && p.Usage != ProductUsage.SaleAndMaintenance);
+                }
+                else if (excludeUsage == ProductUsage.MaintenanceOnly)
+                {
+                    query = query.Where(p => p.Usage != ProductUsage.MaintenanceOnly && p.Usage != ProductUsage.SaleAndMaintenance);
+                }
+                else
+                {
+                    query = query.Where(p => p.Usage != excludeUsage);
+                }
             }
 
             var totalCount = await query.CountAsync(ct);
